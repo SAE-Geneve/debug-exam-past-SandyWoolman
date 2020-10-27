@@ -6,52 +6,72 @@
 //  Copyright © 2016 Elias Farhan. All rights reserved.
 //
 
-#include "Characters.hpp"
+#include "Characters.h"
+#include <iostream>
 
 //////////Character////////////
 
 Character::Character(int health, int attack, int defense, int strength)
 {
-    this->health = health;
-    this->attack = attack;
-this->defense = defense;
-    this->strength = strength;
+    this->health_ = health;
+    this->attack_ = attack;
+    this->defense_ = defense;
+    this->strength_ = strength;
 }
 
-bool Character::isAlive(){
-return health > 0;
+bool Character::isAlive()
+{
+    if (health_ <= 0)
+    {
+        return false;
+    }
+    return true;
 }
 
 void Character::takeDamage(int damage)
 {
-    health -= damage;
+    health_ -= damage;
 }
 
+int Character::getHealth()
+{
+    return health_;
+}
 
 int Character::getAttack()
 {
-    return attack;
+    return attack_;
 }
-int getDefense()
+
+int Character::getDefense()
 {
-    return defense;
+    return defense_;
 }
+
+int Character::getStrength()
+{
+    return strength_;
+}
+
 
 
 //////////Monster////////////
 
-Monster::Monster(int health,int attack,int defense, int strength)
+Monster::Monster(int, int, int, int) : Character(health_, attack_, defense_, strength_) {}
+void Monster::takeDamage(int damage)
 {
-    
 }
 void Monster::fight(Hero* hero)
 {
-    int damage = (double)attack/hero->getDefense()*strength;
-    if(damage<0);
-        damage = 0
-    if(damage > strength)
-        damage = strength;
-    
+    int damage = attack_/hero->getDefense()*strength_;
+    if (damage < 0)
+        {
+            damage = 0;
+        }
+    if(damage > strength_)
+        {
+        damage = strength_;
+        }
     std::cout << "Monster gives "<<damage<<" to Hero\n";
     ((Character*)hero)->takeDamage(damage);
 }
@@ -68,14 +88,20 @@ Hero::Hero(int health, int attack, int defense, int strength): Character(health,
 {
 
 }
+void Hero::takeDamage(int damage)
+{
+}
 void Hero::fight(Monster* monster)
 {
-int damage = (double)attack/monster->getDefense()*strength;
+int damage = attack_/getDefense()*strength_;
     if(damage < 0)
-        damage = 0;
-    if(damage > strength);
-        damage = strength;
-
+        {
+            damage = 0;
+        }
+    if (damage > strength_)
+        {
+            damage = strength_;
+        }
     std::cout << "Hero gives "<<damage<<" to Monster\n";
     monster->takeDamage(damage);
 }
